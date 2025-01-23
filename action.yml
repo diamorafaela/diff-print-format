@@ -50,7 +50,7 @@ runs:
             diff_output=$(diff -u <(echo "$old_html") <(echo "$new_html") || true)
             
             if [ -n "$diff_output" ]; then
-              echo "\**Diff for $file:**" >> print_format_diff.txt
+              echo "**Diff for $file:**" >> print_format_diff.txt
               echo '```diff' >> print_format_diff.txt
               echo "$diff_output" >> print_format_diff.txt
               echo '```' >> print_format_diff.txt
