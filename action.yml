@@ -5,7 +5,6 @@ inputs:
   github-token:
     description: "GitHub Token"
     required: true
-    default: ${{ secrets.GITHUB_TOKEN }}
 branding:
   icon: alert-circle
   color: blue
