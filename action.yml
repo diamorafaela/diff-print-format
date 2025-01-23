@@ -30,8 +30,6 @@ runs:
         git fetch origin ${{ github.event.pull_request.base.ref }}
         git diff origin/${{ github.event.pull_request.base.ref }}...HEAD --name-only | grep 'print_format/.*\.json' > changed_files.txt
 
-        echo "No print format changes detected." > print_format_diff.txt
-
         # Check if there are changes
         if [ -s changed_files.txt ]; then
           echo "Found changes in print format files:"
@@ -58,11 +56,14 @@ runs:
               echo '```' >> print_format_diff.txt
             fi
           done < changed_files.txt
+          echo "::set-output name=has_changes::true"
+        else
+          echo "::set-output name=has_changes::false"
         fi
 
     - name: Comment diff on PR
       shell: bash
-      if: always()
+      if: steps.generate-diff.outputs.has_changes == 'true'
       env:
         GITHUB_TOKEN: ${{ inputs.github-token }}
       run: |
