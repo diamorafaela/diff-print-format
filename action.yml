@@ -58,8 +58,8 @@ runs:
           done < changed_files.txt
         else
           echo "No print format changes detected."
-          exit 0
-        fi  # Close the 'if' statement here
+          echo "No print format changes detected." > print_format_diff.txt
+        fi
 
     - name: Comment diff on PR
       shell: bash
@@ -67,7 +67,9 @@ runs:
       env:
         GITHUB_TOKEN: ${{ inputs.github-token }}
       run: |
-        if [ -f print_format_diff.txt ]; then
+        if grep -q "No print format changes detected." print_format_diff.txt; then
+          echo "No diffs to comment."
+        else
           COMMENT_BODY=$(<print_format_diff.txt)
           ESCAPED_COMMENT=$(echo "$COMMENT_BODY" | jq -R -s '.')
 
@@ -77,6 +79,4 @@ runs:
             -H "Authorization: token ${{ inputs.github-token}}" \
             -d '{"body": '"$ESCAPED_COMMENT"'}' \
             "https://api.github.com/repos/${{ github.repository }}/issues/$PR_NUMBER/comments"
-        else
-          echo "No diffs to comment."
         fi
