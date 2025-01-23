@@ -30,6 +30,8 @@ runs:
         git fetch origin ${{ github.event.pull_request.base.ref }}
         git diff origin/${{ github.event.pull_request.base.ref }}...HEAD --name-only | grep 'print_format/.*\.json' > changed_files.txt
 
+        echo "No print format changes detected." > print_format_diff.txt
+
         # Check if there are changes
         if [ -s changed_files.txt ]; then
           echo "Found changes in print format files:"
@@ -56,9 +58,6 @@ runs:
               echo '```' >> print_format_diff.txt
             fi
           done < changed_files.txt
-        else
-          echo "No print format changes detected."
-          echo "No print format changes detected." > print_format_diff.txt
         fi
 
     - name: Comment diff on PR
