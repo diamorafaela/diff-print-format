@@ -64,8 +64,8 @@ runs:
     - name: Comment diff on PR
       shell: bash
       if: always()
-      with:
-        github-token: ${{ inputs.github-token }}
+      env:
+        GITHUB_TOKEN: ${{ inputs.github-token }}
       run: |
         if [ -f print_format_diff.txt ]; then
           COMMENT_BODY=$(<print_format_diff.txt)
