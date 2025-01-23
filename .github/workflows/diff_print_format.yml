@@ -4,7 +4,7 @@ on:
   pull_request:
 
 jobs:
-  track_overrides:
+  diff_print_format:
     runs-on: ubuntu-latest
     name: Diff Print Formats
     steps:
@@ -13,7 +13,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name:  Diff Print Formats
+      - name: Diff Print Formats
         uses: diamorafaela/diff-print-format@main
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
