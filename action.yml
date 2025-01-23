@@ -28,7 +28,7 @@ runs:
       run: |
         # Compare the current PR's code with the base branch
         git fetch origin ${{ github.event.pull_request.base.ref }}
-        git diff origin/${{ github.event.pull_request.base.ref }}...HEAD --name-only | grep 'print_format/.*\.json' > changed_files.txt
+        git diff origin/${{ github.event.pull_request.base.ref }}...HEAD --name-only | grep 'print_format/.*\.json' > changed_files.txt || true
 
         # Check if there are changes
         if [ -s changed_files.txt ]; then
